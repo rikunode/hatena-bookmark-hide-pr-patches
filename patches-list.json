@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "patches": [
     {
       "name": "Clone Hatena Bookmark for safe side-by-side testing",
@@ -35,7 +35,7 @@
     },
     {
       "name": "Hide native PR entries from article feeds",
-      "description": "Filter PR entries before Hatena's mute-word logic. Keeps ordinary articles and their original mute behavior.",
+      "description": "Exclude PR entries even for logged-out or no-mute hot feeds; keep ordinary articles and existing mute behavior.",
       "default": true,
       "category": null,
       "compatiblePackages": [
