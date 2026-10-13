@@ -1,4 +1,7 @@
-# Hatena Bookmark PR ad filter v0.1.1 (Morphe)
+# Hatena Bookmark PR ad filter v0.1.1 — experimental / known-blocked
+
+**IMPORTANT 2026-10-14:** The real nonroot Android user confirmed the patched Hatena 5.84 clone opens Google's Pairip license dialog, preventing normal operation. Independent Android emulator tests also reached Pairip LicenseActivity. Merely installing both the original and clone on an emulator and marking the clone as Play-installed did not resolve it. These patches can be compiled and applied but **have not been proven functional for removing ads in the live app**. Keep the official app installed; do not disable Google Play Protect. This release is retained as a prerelease for debugging, not recommended for installation.
+
 
 Morphe Manager source for Hatena Bookmark Android **5.84 (58400)** only.
 

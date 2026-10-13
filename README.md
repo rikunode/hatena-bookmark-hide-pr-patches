@@ -5,7 +5,7 @@
 **Published-release preflight:** `python scripts/validate_morphe_release.py` checks Android `classes.dex`, offset-free Kotlin LocalDateTime in `patches-bundle.json`, exact public Release URL, two expected patches and Hatena Bookmark 5.84/versionCode58400. CI workflow runs the same tests with pinned Morphe patcher/plugin. No secrets, raw user APK or generated modified APK should be committed.
 
 
-**Status: v0.1.1 compiled with both PR-filter and separate-install clone patches; applied successfully to exact Hatena 5.84 APK and installed/launched in read-only Android 36 emulator. Runtime reached MainActivity but then Pairip LicenseActivity took focus, so app usability and ad removal are NOT verified. Existing phone app and data untouched. GitHub public source and v0.1.1 patch bundle released; device ad removal still unverified.**
+**KNOWN-BLOCKED v0.1.1 (experimental, NOT for normal use):** Both Morphe patches compile and apply to Hatena 5.84, but the modified clone fails Google Play's Pairip license check on an actual user device (screenshot confirmed). Android 36 emulator reproduced Pairip LicenseActivity and license warnings. Installing both original+clone and marking Play Store as install source DID NOT resolve this. The ad-filtered feed has not been verified. Keep the original app; do not uninstall it or disable Play Protect. Published source/release remain for diagnosis only.
 
 ## What the patch does
 
