@@ -1,0 +1,68 @@
+{
+  "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
+  "version": "0.1.1",
+  "patches": [
+    {
+      "name": "Clone Hatena Bookmark for safe side-by-side testing",
+      "description": "Use a separate package name and provider authorities. Keeps the original installed app untouched; Play license checks may still prevent launch.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.hatena.android.bookmark",
+          "name": "Hatena Bookmark",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2A9BD6",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "5.84",
+              "versionCodes": {
+                "ARM64_V8A": 58400,
+                "ARMEABI_V7A": 58400,
+                "X86_64": 58400,
+                "X86": 58400
+              },
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Hide native PR entries from article feeds",
+      "description": "Filter PR entries before Hatena's mute-word logic. Keeps ordinary articles and their original mute behavior.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.hatena.android.bookmark",
+          "name": "Hatena Bookmark",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2A9BD6",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "5.84",
+              "versionCodes": {
+                "ARM64_V8A": 58400,
+                "ARMEABI_V7A": 58400,
+                "X86_64": 58400,
+                "X86": 58400
+              },
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    }
+  ]
+}
