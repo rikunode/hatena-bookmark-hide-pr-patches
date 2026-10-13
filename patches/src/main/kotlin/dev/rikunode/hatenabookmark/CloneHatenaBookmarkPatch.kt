@@ -28,7 +28,7 @@ val cloneHatenaBookmarkPatch = resourcePatch(
             packageName = ORIGINAL,
             apkFileType = ApkFileType.APK,
             appIconColor = 0x2A9BD6,
-            targets = listOf(AppTarget(version = "5.84", versionCode = 58400)),
+            targets = listOf(AppTarget(version = "5.80", versionCode = 58000)),
         )
     )
 
@@ -46,7 +46,7 @@ val cloneHatenaBookmarkPatch = resourcePatch(
             val clonePermission = "$CLONE.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
             require(customPermissions.size == 1 && customPermissions.single()
                 .getAttribute("android:name") == originalPermission) {
-                "Unexpected Hatena 5.84 custom permissions"
+                "Unexpected Hatena 5.80 custom permissions"
             }
             customPermissions.single().setAttribute("android:name", clonePermission)
 
@@ -60,7 +60,7 @@ val cloneHatenaBookmarkPatch = resourcePatch(
                 }
             }
             require(rewrittenUsesPermissions == 1) {
-                "Expected one reference to custom Hatena 5.84 permission"
+                "Expected one reference to custom Hatena 5.80 permission"
             }
 
             val providers = document.getElementsByTagName("provider")
@@ -80,7 +80,7 @@ val cloneHatenaBookmarkPatch = resourcePatch(
                 mappedAuthorities.add(newAuthority)
             }
             require(mappedAuthorities.size == 3) {
-                "Expected exactly 3 Hatena 5.84 providers, got ${mappedAuthorities.size}"
+                "Expected exactly 3 Hatena 5.80 providers, got ${mappedAuthorities.size}"
             }
             require(mappedAuthorities.toSet().size == 3) {
                 "Duplicate provider authority after cloning"

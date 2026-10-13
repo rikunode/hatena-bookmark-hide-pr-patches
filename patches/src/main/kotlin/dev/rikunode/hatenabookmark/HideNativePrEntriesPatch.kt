@@ -10,7 +10,7 @@ import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 
 /**
- * Verified against the supplied Hatena Bookmark 5.84 / versionCode 58400 DEX:
+ * Verified against Hatena Bookmark 5.80 / versionCode 58000 DEX (static extraction):
  *
  * MuteHelperKt.filteredWithMuteWords(BookmarkEntry, List): Boolean
  * calls BookmarkEntry.isPrEntry() at DEX code-unit offset 21.
@@ -45,7 +45,7 @@ val hideNativePrEntriesPatch = bytecodePatch(
             packageName = "com.hatena.android.bookmark",
             apkFileType = ApkFileType.APK,
             appIconColor = 0x2A9BD6,
-            targets = listOf(AppTarget(version = "5.84", versionCode = 58400)),
+            targets = listOf(AppTarget(version = "5.80", versionCode = 58000)),
         )
     )
 
@@ -54,10 +54,10 @@ val hideNativePrEntriesPatch = bytecodePatch(
         val impl = requireNotNull(method.implementation) { "Mute filter has no bytecode" }
         val instructions = impl.instructions
         require(impl.registerCount == 8) {
-            "Unexpected register layout in Hatena 5.84 mute filter"
+            "Unexpected register layout in Hatena 5.80 mute filter"
         }
-        require(instructions.sumOf { it.codeUnits } == 103) {
-            "Unexpected Hatena 5.84 mute filter code size"
+        require(instructions.sumOf { it.codeUnits } == 105) {
+            "Unexpected Hatena 5.80 mute filter code size"
         }
         require(instructions.first().opcode == Opcode.INVOKE_VIRTUAL) {
             "Unexpected first instruction in Hatena mute filter"
@@ -71,11 +71,11 @@ val hideNativePrEntriesPatch = bytecodePatch(
             "Expected exactly one pre-existing PR classification call"
         }
         require(instructions.take(prCalls.single().index).sumOf { it.codeUnits } == 21) {
-            "Hatena 5.84 PR classification moved; refusing unsafe patch"
+            "Hatena 5.80 PR classification moved; refusing unsafe patch"
         }
 
         // p0 is the BookmarkEntry. v0 is a scratch local register;
-        // 5.84's original method overwrites v0 before it is read.
+        // 5.80's original method overwrites v0 before it is read.
         method.addInstructionsWithLabels(
             0,
             """
