@@ -11,6 +11,7 @@ These tests verify the actual modified DEX not just source text; Android UI outc
 """
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -22,7 +23,8 @@ APKS = ROOT / "apk-inspection"
 SOURCE = APKS / "Hatena_Bookmark__Save__share_5.80_APKPure.apk"
 PATCHED = APKS / "HatenaBookmark-5.80-PR-hidden-clone-v021-test.apk"
 REPORT = APKS / "hatena-v021-apply.json"
-DEXDUMP = Path(r"C:\Users\kkoji\AppData\Local\Android\Sdk\build-tools\36.0.0\dexdump.exe")
+SDK_ROOT = Path(os.environ.get("ANDROID_HOME") or os.environ.get("ANDROID_SDK_ROOT") or (Path.home() / "AppData/Local/Android/Sdk"))
+DEXDUMP = Path(os.environ.get("ANDROID_DEXDUMP") or (SDK_ROOT / "build-tools" / "36.0.0" / "dexdump.exe"))
 
 
 @unittest.skipUnless(SOURCE.is_file() and PATCHED.is_file() and REPORT.is_file(), "v0.2.1 local APKs not available")

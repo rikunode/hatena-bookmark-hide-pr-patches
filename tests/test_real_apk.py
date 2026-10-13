@@ -16,9 +16,8 @@ APK_DIR = ROOT / "apk-inspection"
 SOURCE = APK_DIR / "hatena-bookmark-v5.84-58400.apk"
 PATCHED = APK_DIR / "HatenaBookmark-5.84-PR-hidden-clone-test.apk"
 REPORT = APK_DIR / "hatena-patch-test.json"
-DEXDUMP = Path(os.getenv(
-    "ANDROID_DEXDUMP", r"C:\Users\kkoji\AppData\Local\Android\Sdk\build-tools\36.0.0\dexdump.exe"
-))
+SDK_ROOT = Path(os.environ.get("ANDROID_HOME") or os.environ.get("ANDROID_SDK_ROOT") or (Path.home() / "AppData/Local/Android/Sdk"))
+DEXDUMP = Path(os.environ.get("ANDROID_DEXDUMP") or (SDK_ROOT / "build-tools" / "36.0.0" / "dexdump.exe"))
 
 @unittest.skipUnless(
     SOURCE.is_file() and PATCHED.is_file() and REPORT.is_file(),

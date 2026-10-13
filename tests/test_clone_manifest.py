@@ -10,7 +10,8 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 APK = ROOT / "apk-inspection/HatenaBookmark-5.84-PR-hidden-clone-test.apk"
-SDK = Path(r"C:\Users\kkoji\AppData\Local\Android\Sdk\build-tools\36.0.0")
+SDK_ROOT = Path(os.environ.get("ANDROID_HOME") or os.environ.get("ANDROID_SDK_ROOT") or (Path.home() / "AppData/Local/Android/Sdk"))
+SDK = SDK_ROOT / "build-tools" / "36.0.0"
 AAPT = SDK / "aapt.exe"
 SIGNER = SDK / "apksigner.bat"
 OLD = "com.hatena.android.bookmark"

@@ -22,7 +22,7 @@ User-provided 5.80 APK SHA256: f5de27b6d0948d5716ef7dd24c0910c37e370c07db3888ff8
 ## Latest verified input on Windows (2026-10-14)
 
 The user placed the original uploaded APK at:
-C:\Users\kkoji\Documents\Codex\hatena-bookmark-morphe-patches\apk-inspection\Hatena_Bookmark__Save__share_5.80_APKPure.apk
+`apk-inspection/Hatena_Bookmark__Save__share_5.80_APKPure.apk` (relative to the project root)
 
 - SHA256 EXACT MATCH with previous independently inspected upload: f5de27b6d0948d5716ef7dd24c0910c37e370c07db3888ff8aaa38a70afbd94b.
 - Windows Android SDK aapt confirms original package com.hatena.android.bookmark / 5.80 / versionCode 58000.

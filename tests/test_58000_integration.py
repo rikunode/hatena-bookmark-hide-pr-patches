@@ -1,13 +1,14 @@
 """Read-only real APK regression tests for Hatena 5.80, not a device UI test."""
 from pathlib import Path
-import hashlib, json, subprocess, zipfile, unittest
+import hashlib, json, os, subprocess, zipfile, unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 D = ROOT / "apk-inspection"
 SOURCE = D / "Hatena_Bookmark__Save__share_5.80_APKPure.apk"
 OUT = D / "HatenaBookmark-5.80-PR-hidden-clone-experiment.apk"
 REPORT = D / "hatena-58000-apply-result.json"
-SDK = Path(r"C:\Users\kkoji\AppData\Local\Android\Sdk\build-tools\36.0.0")
+SDK_ROOT = Path(os.environ.get("ANDROID_HOME") or os.environ.get("ANDROID_SDK_ROOT") or (Path.home() / "AppData/Local/Android/Sdk"))
+SDK = SDK_ROOT / "build-tools" / "36.0.0"
 
 @unittest.skipUnless(all(p.exists() for p in [SOURCE, OUT, REPORT]), "test artifacts missing")
 class Hatena58000(unittest.TestCase):
