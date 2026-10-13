@@ -11,7 +11,7 @@ import unittest
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-MPP = ROOT / "patches/build/libs/patches-0.1.0.mpp"
+MPP = ROOT / "patches/build/libs/patches-0.1.1.mpp"
 
 class MppTests(unittest.TestCase):
     def test_android_bundle(self):
@@ -28,10 +28,10 @@ class MppTests(unittest.TestCase):
 
     def test_metadata(self):
         meta = json.loads((ROOT/"patches-list.json").read_text(encoding="utf-8"))
-        self.assertEqual(meta["version"], "0.1.0")
-        self.assertEqual(len(meta["patches"]), 1)
-        patch = meta["patches"][0]
-        self.assertEqual(patch["name"], "Hide native PR entries from article feeds")
+        self.assertEqual(meta["version"], "0.1.1")
+        self.assertEqual(len(meta["patches"]), 2)
+        self.assertEqual({p["name"] for p in meta["patches"]}, {"Hide native PR entries from article feeds", "Clone Hatena Bookmark for safe side-by-side testing"})
+        patch = next(p for p in meta["patches"] if p["name"] == "Hide native PR entries from article feeds")
         packages = patch["compatiblePackages"]
         self.assertEqual(len(packages), 1)
         self.assertEqual(packages[0]["packageName"], "com.hatena.android.bookmark")
