@@ -1,6 +1,6 @@
 # Hatena Bookmark native PR filter for Morphe
 
-**Current experimental version: v0.2.0 — Hatena Bookmark 5.80 (versionCode 58000) only.**
+**Published experimental prerelease: [v0.2.0](https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/tag/v0.2.0) — Hatena Bookmark 5.80 (versionCode 58000) only.** Public asset downloaded and SHA256 verified; GitHub Actions clean build PASS. A fresh Morphe Desktop invocation using the GitHub repo URL and its `--prerelease` flag downloaded v0.2.0 and applied both patches with zero failures. Actual Android Morphe Manager UI and phone feed still require user verification.
 
 Morphe Manager patch source:
 
