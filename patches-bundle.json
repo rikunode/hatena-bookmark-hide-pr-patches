@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-14T00:04:00",
-  "description": "Hatena Bookmark 5.84 (58400) native PR entry filter and optional safe side-by-side clone patch. Android bundle includes classes.dex. APK patch and emulator install tested; Pairip license check can prevent use. Actual on-device ad removal not yet verified.",
-  "download_url": "https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/download/v0.1.1/patches-0.1.1.mpp",
+  "created_at": "2026-10-14T01:15:00",
+  "description": "EXPERIMENTAL Hatena Bookmark 5.80 (58000) PR article filter + side-by-side clone. APK patch/sign/Android launch tested; live article loading, ad disappearance and account login NOT confirmed. Historical 2024 third-party-sourced APK, use caution. Former 5.84 was blocked by Pairip.",
+  "download_url": "https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/download/v0.2.0/patches-0.2.0.mpp",
   "signature_download_url": "",
-  "version": "0.1.1"
+  "version": "0.2.0"
 }

@@ -13,7 +13,7 @@ import struct
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 OWNER = "rikunode"
 REPOSITORY = "hatena-bookmark-hide-pr-patches"
 EXPECTED_NAMES = {
@@ -59,10 +59,10 @@ def validate_index(data: dict) -> None:
         targets = item.get("targets")
         if not isinstance(targets, list) or len(targets) != 1:
             raise ValueError("expected one supported version per patch")
-        if targets[0].get("version") != "5.84":
+        if targets[0].get("version") != "5.80":
             raise ValueError("wrong supported Hatena version")
         codes = targets[0].get("versionCodes")
-        if not isinstance(codes, dict) or set(codes.values()) != {58400}:
+        if not isinstance(codes, dict) or set(codes.values()) != {58000}:
             raise ValueError("wrong supported Hatena version code")
 
 
@@ -98,7 +98,7 @@ def main() -> None:
     validate_manifest(remote)
     validate_index(index)
     validate_bundle(ROOT / "patches/build/libs" / f"patches-{VERSION}.mpp")
-    print("MORPHE_ANDROID_SOURCE_PASS: JSON created_at, version, 2 patches, 58400, Android classes.dex")
+    print("MORPHE_ANDROID_SOURCE_PASS: JSON created_at, version, 2 patches, 58000, Android classes.dex")
 
 
 if __name__ == "__main__":

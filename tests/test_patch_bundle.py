@@ -11,7 +11,7 @@ import unittest
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-MPP = ROOT / "patches/build/libs/patches-0.1.1.mpp"
+MPP = ROOT / "patches/build/libs/patches-0.2.0.mpp"
 
 class MppTests(unittest.TestCase):
     def test_android_bundle(self):
@@ -28,7 +28,7 @@ class MppTests(unittest.TestCase):
 
     def test_metadata(self):
         meta = json.loads((ROOT/"patches-list.json").read_text(encoding="utf-8"))
-        self.assertEqual(meta["version"], "0.1.1")
+        self.assertEqual(meta["version"], "0.2.0")
         self.assertEqual(len(meta["patches"]), 2)
         self.assertEqual({p["name"] for p in meta["patches"]}, {"Hide native PR entries from article feeds", "Clone Hatena Bookmark for safe side-by-side testing"})
         patch = next(p for p in meta["patches"] if p["name"] == "Hide native PR entries from article feeds")
@@ -36,15 +36,15 @@ class MppTests(unittest.TestCase):
         self.assertEqual(len(packages), 1)
         self.assertEqual(packages[0]["packageName"], "com.hatena.android.bookmark")
         target = packages[0]["targets"][0]
-        self.assertEqual(target["version"], "5.84")
-        self.assertEqual(set(target["versionCodes"].values()), {58400})
+        self.assertEqual(target["version"], "5.80")
+        self.assertEqual(set(target["versionCodes"].values()), {58000})
 
     def test_source_fail_closed(self):
         source = (ROOT/"patches/src/main/kotlin/dev/rikunode/hatenabookmark/HideNativePrEntriesPatch.kt").read_text(encoding="utf-8")
         for expected in (
             'name = "filteredWithMuteWords"', 'returnType = "Z"',
-            'AppTarget(version = "5.84", versionCode = 58400)',
-            'sumOf { it.codeUnits } == 103',
+            'AppTarget(version = "5.80", versionCode = 58000)',
+            'sumOf { it.codeUnits } == 105',
             '== 21)', 'prCalls.size == 1', 'if-eqz v0, :normal_article',
             'const/4 v0, 0x0', 'return v0',
         ):

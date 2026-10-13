@@ -1,59 +1,42 @@
-# Hatena Bookmark 5.84 native PR-entry filter — Morphe
+# Hatena Bookmark native PR filter for Morphe
 
-**Morphe Manager source (public):** `https://github.com/rikunode/hatena-bookmark-hide-pr-patches` — [v0.1.1 release](https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/tag/v0.1.1). Add this repository URL in Morphe Manager. See [Japanese setup guide](docs/MORPHE_MANAGER_SETUP_JA.md).
+**Current experimental version: v0.2.0 — Hatena Bookmark 5.80 (versionCode 58000) only.**
 
-**Published-release preflight:** `python scripts/validate_morphe_release.py` checks Android `classes.dex`, offset-free Kotlin LocalDateTime in `patches-bundle.json`, exact public Release URL, two expected patches and Hatena Bookmark 5.84/versionCode58400. CI workflow runs the same tests with pinned Morphe patcher/plugin. No secrets, raw user APK or generated modified APK should be committed.
+Morphe Manager patch source:
 
+```text
+https://github.com/rikunode/hatena-bookmark-hide-pr-patches
+```
 
-**KNOWN-BLOCKED v0.1.1 (experimental, NOT for normal use):** Both Morphe patches compile and apply to Hatena 5.84, but the modified clone fails Google Play's Pairip license check on an actual user device (screenshot confirmed). Android 36 emulator reproduced Pairip LicenseActivity and license warnings. Installing both original+clone and marking Play Store as install source DID NOT resolve this. The ad-filtered feed has not been verified. Keep the original app; do not uninstall it or disable Play Protect. Published source/release remain for diagnosis only.
+> **Experimental prerelease, not a verified ad-free application.** We confirmed Morphe APK patching, signature, bytecode and Android emulator installation/launch. We have **NOT confirmed live feed rendering, native ads disappearing in the actual UI, login, or bookmarking**. Both Android 36 emulator setups became unresponsive in the system UI while attempting screenshot/hierarchy capture on a constrained Windows host. Keep the original app installed and do not disable Play Protect.
 
-## What the patch does
+## Included patches
 
-The official Hatena Bookmark 5.84 (versionCode 58400; package `com.hatena.android.bookmark`) app has a native PR-ad flag `BookmarkEntry.isPrEntry()`. In its existing `MuteHelperKt.filteredWithMuteWords(BookmarkEntry,List)` method, PR items return `true` immediately and therefore bypass normal mute filtering.
+- **Hide native PR entries from article feeds**: the app's normal filtering method `MuteHelperKt.filteredWithMuteWords(BookmarkEntry,List)` contains an unconditional "keep PR" branch; this Morphe bytecode patch checks `BookmarkEntry.isPrEntry()` first and returns `false` (exclude from list) for PR entries only. Non-PR items follow original mute logic. Does not merely hide the small ad label.
+- **Clone Hatena Bookmark for safe side-by-side testing**: changes installed package to `com.hatena.android.bookmark.morphe` and rewrites one custom permission plus three provider authorities, allowing the original app to remain installed. Both patches default to enabled. Login and settings do **not** transfer to the clone.
 
-This patch uses Morphe bytecode transformation to insert an early check: PR items return `false` (excluded from list); non-PR items execute the original method exactly as before. It does **not** merely erase the visible AD badge, nor block arbitrary network domains. The patch fails closed if the expected 5.84 bytecode changes.
+**Compatibility:** original APK package `com.hatena.android.bookmark`, versionName `5.80`, versionCode `58000`. Source-side guard checks exact 5.80 mute-filter bytecode (8 registers, 105 code units, one original PR check at code-unit offset 21). Changed unknown builds fail closed.
 
-The original attached Antisplit APK hash was inspected without credentials or personal data:
+## 5.80 verification
 
-- APK SHA-256: `0e2c6727e92a8a4ecbb05a4fdcd9059d80c11552ff6f4155d94c874247384684`
-- Package `com.hatena.android.bookmark` / versionName `5.84` / versionCode `58400`
-- Methods: `MuteHelperKt.filteredWithMuteWords(...)` is 103 DEX code units, 8 registers, PR check at offset 21.
-- Actual patch eligibility: only 5.84/58400.
+- Historical user-supplied input SHA256 `f5de27b6d0948d5716ef7dd24c0910c37e370c07db3888ff8aaa38a70afbd94b`, APK v2/v3 signature verified with subject `CN=Hatena Inc.`, Google SourceStamp verified. This demonstrates integrity against this signing key, **not comprehensive protection against malware** or independent proof of publisher key ownership.
+- Unlike 5.84, no Pairip/Play license activity identified in 5.80.
+- Morphe Desktop applied **2 patches, 0 failures**. Rebuilding and APK v2 signing passed. APK keeps the source's `classes2.dex` unchanged and adds a `classes3.dex` that Android SDK `dexdump` independently verified checks PR first, returns `false` and falls through to unchanged original logic for ordinary articles.
+- An isolated Android 36 emulator installed the new clone and reached `MainActivity` without observed Pairip interception. Article rendering and actual PR removal remain **UNVERIFIED** due System UI ANR/device offline. A second emulator image repeated the System UI issue.
+- In local release preflight, **23 tests passed**. GitHub Actions compiles its own Android bundle and runs regression tests, skipping local-only APK integration checks if the user APK is absent.
 
-## Known scope/limitations
+**Security warning:** the old 2024 APK came from a third-party archive. Its signature is valid but this is **not an assurance that the archive is malware-free**. The GitHub repository and releases **do not distribute any APK**, only patch source and compiled Morphe `.mpp`. Do not uninstall your working 5.84 to try this.
 
-- Call sites confirmed in `GetCategoryHotEntryList`, `CategoryHotEntryPagingSource`, and `CategoryNewEntryPagingSource`. Other lists such as some personalized views may not run through this method.
-- Screenshot shows an inline PR article in the `総合` tab. The relevant popular/new-article path is confirmed; actual device visual proof, and exhaustive per-tab coverage, remain pending.
-- Input and patched APK both declare `com.pairip.application.Application` and `com.pairip.licensecheck.LicenseActivity`. Morphe re-signs output, which can trigger Pairip license / anti-tamper checks. **Successful patching and APK signature verification do not demonstrate app launch or sign-in.**
-- Input APK certificate: Android test/debug key; patched APK certificate: `CN=Morphe` (v2 verified, SHA256 `1d2ce7241e0555208cda714edaeb2ff28118f6475409d79db2df8f5bbecf035f`). Android won't update a different-signed installed package in place. Do not uninstall the current app until backups/restore and an isolated install plan are validated.
-- No provider calls, credential changes, or third-party SDK behavior changes are intended.
-- No server-side or username-based ad targeting bypass is attempted.
+See [Japanese Morphe installation notes](docs/MORPHE_MANAGER_SETUP_JA.md), [5.80 security/test evidence](docs/EXPERIMENT_58000_SECURITY_AND_PORT.md), and [v0.2.0 prerelease notes](docs/RELEASE_NOTES_v0.2.0.md).
 
-## Local files and tests
+## History: v0.1.1 for 5.84 (known broken)
 
-- Morphe patch source: `patches/src/main/kotlin/dev/rikunode/hatenabookmark/HideNativePrEntriesPatch.kt`.
-- Patch archive: `patches/build/libs/patches-0.1.1.mpp` (both PR-filter and clone enabled).
-- Local build: `./gradlew.bat :patches:generatePatchesList --offline`.
-- Static validation: `python -m unittest discover -s tests -v`.
+The previous v0.1.1 targeted Hatena Bookmark 5.84/versionCode58400 and passed APK patching tests, but **actual user device testing found Google Pairip license rejection** after modification. Installing original+clone together and claiming Play installer provenance did not repair it. Keep this release flagged prerelease for reproducibility only. **Do not use 5.84 v0.1.1 for day-to-day operation.**
 
-## Real APK application (2026-10-13)
+## Development
 
-The user's exact 20,916,502-byte antisplit APK was copied to `apk-inspection/hatena-bookmark-v5.84-58400.apk`; SHA-256 equals the pinned value above. `python scripts/patch_user_apk.py apk-inspection/hatena-bookmark-v5.84-58400.apk` applied **2 patches, 0 failures** (PR removal and safe side-by-side clone), and Morphe Desktop reported PATCHING/REBUILDING/SIGNING all PASS.
+Build: `./gradlew.bat :patches:generatePatchesList --offline` on Windows (or `bash ./gradlew :patches:generatePatchesList` on Linux).
 
-- Current side-by-side test output: `apk-inspection/HatenaBookmark-5.84-PR-hidden-clone-test.apk`
-- Current clone APK SHA-256: `79bad0c793fbb0962d0291dcac82ab4c41bba821fbcf15d5913b3ed0af75fff1`
-- `apksigner verify --verbose`: V2 `true`, single signer `CN=Morphe`.
-- Clone package `com.hatena.android.bookmark.morphe`; versionName `5.84`, versionCode `58400`. All 3 provider authorities and the custom receiver permission are also rewritten to avoid coexistence conflicts.
-- Original `classes2.dex` unchanged byte-for-byte; output adds a small `classes3.dex` carrying the modified class `MuteHelperKt` as part of Morphe STRIP_FAST.
-- Android SDK `dexdump -d` on the output's `classes3.dex` shows the first instructions in `filteredWithMuteWords` check `BookmarkEntry.isPrEntry()`, return `false` for PR, and fall through to original article filtering otherwise.
+Run metadata/tests: `python scripts/validate_morphe_release.py` and `python -m unittest discover -s tests -v`.
 
-## Isolated Android 36 emulator test
-
-- Started an existing Android 36 / Google Play emulator in **read-only** mode, without saving snapshots.
-- `adb install -r` of the **cloned** APK returned `Success`, with `pm path` confirming package `com.hatena.android.bookmark.morphe`. No original package installation was changed, and no physical device was attached.
-- `am start` launched original `RootMenuActivity` under the new package and navigated to `MainActivity`. The app process remained alive after 18 seconds; there was no observed `FATAL EXCEPTION`.
-- Later the foreground window became `com.pairip.licensecheck.LicenseActivity`. Pairip logged `NameNotFoundException: com.hatena.android.bookmark` while trying to inspect the original package, which had **not** been installed in the emulator. This confirms a **licensing blocker in the isolated environment**, not successful feed rendering. The original app is present on the user's phone, so device outcome is uncertain.
-- A second emulator attempt also installed/launched the clone, but timed out before an original+clone combination test. **Do not claim Pairip licensing passed or that native ads disappeared.**
-- All **12 local unit/actual APK/clone manifest and signature tests PASS**. These confirm build/apply/DEX logic and package coexistence metadata, not licensing or visual behavior.
-
-**Next gate:** On an actual phone where the official Hatena app remains installed, install only the cloned APK as a separate app; check whether Pairip licensing permits normal navigation, then compare the `総合` feed's native PR rows. Do not uninstall or clear the original app. Preserve any account/bookmark data before broader testing. The generated/test patched APK remains local and is not distributed; only the .mpp patch bundle and source are published on GitHub.
+Morphe bundle: `patches/build/libs/patches-0.2.0.mpp`. Public source metadata: `patches-bundle.json`, `patches-list.json`. Submodules are pinned to reviewed Morphe patcher and Gradle plugin versions.
