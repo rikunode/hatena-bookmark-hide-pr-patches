@@ -1,11 +1,11 @@
 # Hatena Bookmark 5.84 native PR-entry filter — Morphe
 
-**Morphe Manager source:** publication-ready local project; GitHub repository and v0.1.1 Release have NOT been created yet. See [Morphe Manager setup guide](docs/MORPHE_MANAGER_SETUP_JA.md). Import URL will be `https://github.com/rikunode/hatena-bookmark-hide-pr-patches` AFTER repository creation and release publication.
+**Morphe Manager source (public):** `https://github.com/rikunode/hatena-bookmark-hide-pr-patches` — [v0.1.1 release](https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/tag/v0.1.1). Add this repository URL in Morphe Manager. See [Japanese setup guide](docs/MORPHE_MANAGER_SETUP_JA.md).
 
 **Published-release preflight:** `python scripts/validate_morphe_release.py` checks Android `classes.dex`, offset-free Kotlin LocalDateTime in `patches-bundle.json`, exact public Release URL, two expected patches and Hatena Bookmark 5.84/versionCode58400. CI workflow runs the same tests with pinned Morphe patcher/plugin. No secrets, raw user APK or generated modified APK should be committed.
 
 
-**Status: v0.1.1 compiled with both PR-filter and separate-install clone patches; applied successfully to exact Hatena 5.84 APK and installed/launched in read-only Android 36 emulator. Runtime reached MainActivity but then Pairip LicenseActivity took focus, so app usability and ad removal are NOT verified. Existing phone app and data untouched. No GitHub publication.**
+**Status: v0.1.1 compiled with both PR-filter and separate-install clone patches; applied successfully to exact Hatena 5.84 APK and installed/launched in read-only Android 36 emulator. Runtime reached MainActivity but then Pairip LicenseActivity took focus, so app usability and ad removal are NOT verified. Existing phone app and data untouched. GitHub public source and v0.1.1 patch bundle released; device ad removal still unverified.**
 
 ## What the patch does
 
@@ -56,4 +56,4 @@ The user's exact 20,916,502-byte antisplit APK was copied to `apk-inspection/hat
 - A second emulator attempt also installed/launched the clone, but timed out before an original+clone combination test. **Do not claim Pairip licensing passed or that native ads disappeared.**
 - All **12 local unit/actual APK/clone manifest and signature tests PASS**. These confirm build/apply/DEX logic and package coexistence metadata, not licensing or visual behavior.
 
-**Next gate:** On an actual phone where the official Hatena app remains installed, install only the cloned APK as a separate app; check whether Pairip licensing permits normal navigation, then compare the `総合` feed's native PR rows. Do not uninstall or clear the original app. Preserve any account/bookmark data before broader testing. The output remains local; no GitHub release has been made.
+**Next gate:** On an actual phone where the official Hatena app remains installed, install only the cloned APK as a separate app; check whether Pairip licensing permits normal navigation, then compare the `総合` feed's native PR rows. Do not uninstall or clear the original app. Preserve any account/bookmark data before broader testing. The generated/test patched APK remains local and is not distributed; only the .mpp patch bundle and source are published on GitHub.

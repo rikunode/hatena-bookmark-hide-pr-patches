@@ -1,6 +1,6 @@
-# Morphe Manager での追加方法（公開後）
+# Morphe Manager での追加方法（v0.1.1公開済み）
 
-**このリポジトリは現在、公開前のローカル開発状態です。** GitHubへ公開し、v0.1.1 Releaseに `patches-0.1.1.mpp` を添付してから、以下の手順を使います。
+**公開済み。** GitHubにv0.1.1のMorpheパッチバンドル `patches-0.1.1.mpp` とSHA256SUMSがあり、GitHub Actionsのビルド・検証も成功済み。Morphe Managerでのインポートと実機での広告除去は別途確認が必要です。
 
 1. Morphe Manager を起動し、パッチソース管理画面で「リモートから追加」を選ぶ。
 2. 以下の URL を追加する。
