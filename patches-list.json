@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "patches": [
     {
       "name": "Clone Hatena Bookmark for safe side-by-side testing",
@@ -17,12 +17,12 @@
           "signatures": null,
           "targets": [
             {
-              "version": "5.84",
+              "version": "5.80",
               "versionCodes": {
-                "ARM64_V8A": 58400,
-                "ARMEABI_V7A": 58400,
-                "X86_64": 58400,
-                "X86": 58400
+                "ARM64_V8A": 58000,
+                "ARMEABI_V7A": 58000,
+                "X86_64": 58000,
+                "X86": 58000
               },
               "isExperimental": false,
               "minSdk": null,
@@ -48,12 +48,12 @@
           "signatures": null,
           "targets": [
             {
-              "version": "5.84",
+              "version": "5.80",
               "versionCodes": {
-                "ARM64_V8A": 58400,
-                "ARMEABI_V7A": 58400,
-                "X86_64": 58400,
-                "X86": 58400
+                "ARM64_V8A": 58000,
+                "ARMEABI_V7A": 58000,
+                "X86_64": 58000,
+                "X86": 58000
               },
               "isExperimental": false,
               "minSdk": null,

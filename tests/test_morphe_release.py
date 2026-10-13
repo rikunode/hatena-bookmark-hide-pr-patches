@@ -20,7 +20,7 @@ class RemoteManagerTests(unittest.TestCase):
     def test_timezone_regression_from_fairemail(self):
         for suffix in ("+09:00", "Z", ".100+09:00"):
             with self.subTest(suffix=suffix):
-                m = {**self.metadata, "created_at": "2026-10-14T00:04:00" + suffix}
+                m = {**self.metadata, "created_at": "2026-10-14T01:15:00" + suffix}
                 with self.assertRaisesRegex(ValueError, "WITHOUT offset"):
                     validate_manifest(m)
 
@@ -30,7 +30,7 @@ class RemoteManagerTests(unittest.TestCase):
 
     def test_wrong_download_url(self):
         with self.assertRaisesRegex(ValueError, "download_url"):
-            validate_manifest({**self.metadata, "download_url": "https://github.com/rikunode/other/releases/download/v0.1.1/patches-0.1.1.mpp"})
+            validate_manifest({**self.metadata, "download_url": "https://github.com/rikunode/other/releases/download/v0.2.0/patches-0.2.0.mpp"})
 
     def test_valid_patch_index(self):
         validate_index(self.index)
