@@ -42,9 +42,9 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -v
           python3 scripts/validate_morphe_release.py
-          test -s patches/build/libs/patches-0.2.0.mpp
-          sha256sum patches/build/libs/patches-0.2.0.mpp
+          test -s patches/build/libs/patches-0.2.1.mpp
+          sha256sum patches/build/libs/patches-0.2.1.mpp
       - uses: actions/upload-artifact@v4
         with:
-          name: hatena-morphe-patches-0.2.0
-          path: patches/build/libs/patches-0.2.0.mpp
+          name: hatena-morphe-patches-0.2.1
+          path: patches/build/libs/patches-0.2.1.mpp
