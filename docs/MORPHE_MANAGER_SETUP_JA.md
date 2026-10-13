@@ -6,7 +6,9 @@ Morphe Managerで利用するパッチソース：
 https://github.com/rikunode/hatena-bookmark-hide-pr-patches
 ```
 
-**5.80 / versionCode 58000専用**。5.84には現在の公開ソースv0.2.0を適用できません（旧5.84版v0.1.1はPairipにより起動不能と確認済み）。
+**v0.2.0は試験公開済み。5.80 / versionCode 58000専用**。5.84には現在の公開ソースv0.2.0を適用できません（旧5.84版v0.1.1はPairipにより起動不能と確認済み）。
+
+公開ファイルのSHA256照合、GitHub Actionsのクリーン環境ビルド、GitHub URLからのMorphe Desktopでの2パッチ取得・適用まで成功。Android版Managerはmainブランチの`patches-bundle.json`から配布URLを読み込むので、**GitHubの試験版指定によるファイル取得も可能な構成**。ただしManager実機表示は未確認。PC版Morphe DesktopでURLを直接指定する場合に限り、`--prerelease`が必要だった。
 
 ## 目的と仕様
 
