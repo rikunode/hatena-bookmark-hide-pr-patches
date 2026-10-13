@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Patch *only* the exact user-supplied 5.84 APK, inspect the output and avoid installs.
+"""Patch *only* the exact user-supplied 5.80 APK, inspect the output and avoid installs.
 
 Usage:
-  python scripts/patch_user_apk.py apk-inspection/hatena-bookmark-v5.84-58400.apk
+  python scripts/patch_user_apk.py apk-inspection/Hatena_Bookmark__Save__share_5.80_APKPure.apk
 
 This script never touches the installed app or its data.
 """
@@ -16,9 +16,9 @@ import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
-EXPECTED_SHA256 = "0e2c6727e92a8a4ecbb05a4fdcd9059d80c11552ff6f4155d94c874247384684"
+EXPECTED_SHA256 = "f5de27b6d0948d5716ef7dd24c0910c37e370c07db3888ff8aaa38a70afbd94b"
 PATCH_NAMES = {"Hide native PR entries from article feeds", "Clone Hatena Bookmark for safe side-by-side testing"}
-BUNDLE = ROOT / "patches/build/libs/patches-0.1.1.mpp"
+BUNDLE = ROOT / "patches/build/libs/patches-0.2.0.mpp"
 DEFAULT_JAR = ROOT.parent / "pupil-morphe-patches/apk-inspection/morphe-desktop-1.18.1-all.jar"
 EXPECTED_JAR_SHA256 = "1b506ab5f03d16a2f65026d5e0e1910d01fc1e2152f21eaeb44ed2f30856597b"
 
@@ -64,20 +64,20 @@ def main() -> None:
 
     outdir = ROOT / "apk-inspection"
     outdir.mkdir(parents=True, exist_ok=True)
-    output = outdir / "HatenaBookmark-5.84-PR-hidden-clone-test.apk"
-    report = outdir / "hatena-patch-test.json"
+    output = outdir / "HatenaBookmark-5.80-PR-hidden-clone-test.apk"
+    report = outdir / "hatena-58000-cli-patch-test.json"
     bundled_java = Path(r"C:\Program Files\Android\Android Studio\jbr\bin\java.exe")
     java = os.getenv("JAVA_BIN") or (str(bundled_java) if bundled_java.is_file() else "java")
     cmd = [
         java, "-jar", str(jar), "patch", f"--patches={BUNDLE}",
         f"--out={output}", f"--result-file={report}", str(args.apk),
     ]
-    print("Starting Morphe Desktop on pinned 5.84 source; no install", flush=True)
+    print("Starting Morphe Desktop on pinned 5.80 source; no install", flush=True)
     subprocess.run(cmd, check=True, cwd=ROOT)
     data = json.loads(report.read_text(encoding="utf-8"))
     if data.get("packageName") != "com.hatena.android.bookmark":
         raise AssertionError(f"Unexpected package: {data.get('packageName')}")
-    if data.get("packageVersion") != "5.84":
+    if data.get("packageVersion") != "5.80":
         raise AssertionError(f"Unexpected version: {data.get('packageVersion')}")
     applied = [x["name"] for x in data.get("appliedPatches", [])]
     if set(applied) != PATCH_NAMES or len(applied) != 2 or data.get("failedPatches"):
@@ -99,7 +99,7 @@ def main() -> None:
     print("MORPHE_APK_APPLY_PASS; PR filter + side-by-side clone applied, no failures")
     print("Output:", output)
     print("Output SHA256:", sha256(output))
-    print("NOTE: Pairip anti-tamper, sign-in and in-app ad removal are NOT proven by a successful build.")
+    print("NOTE: No Pairip components seen in input, but sign-in, feed rendering and in-app ad removal remain UNVERIFIED.")
 
 
 if __name__ == "__main__":
