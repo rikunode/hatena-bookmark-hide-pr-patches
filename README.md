@@ -1,8 +1,10 @@
 # Hatena Bookmark — native PR article filter for Morphe
 
-**Current experimental fix: v0.2.1** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**.
+**Current tested fix: v0.2.1** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. The user confirmed PR-ad removal on a real Android device on 2026-10-17.
 
-Morphe Manager source:
+[**Add Hatena Bookmark PR Filter to Morphe (one tap)**](https://morphe.software/add-source?github=rikunode/hatena-bookmark-hide-pr-patches)
+
+Morphe Manager remote source:
 
 ```text
 https://github.com/rikunode/hatena-bookmark-hide-pr-patches
@@ -27,7 +29,7 @@ The source 5.80 APK has SHA256 `f5de27b6d0948d5716ef7dd24c0910c37e370c07db3888ff
 
 Morphe Desktop applied **2/2 patches, 0 failures**, rebuilt and signed an output APK. Android SDK `apksigner` verified the v2 signature; `dexdump` confirmed the unconditional `withDate` filter call and the early `isPrEntry()` guard in the executable output DEX; the original `classes2.dex` remained identical. v0.2.1 specific tests verify these properties.
 
-**Still not verified: real-device removal of the previously visible `広告` entry with v0.2.1, other tabs, login and bookmarking.** The user is expected to apply the update and visually verify the `総合` feed. Do not claim full ad-free operation without that screenshot.
+**Real-device user confirmation (2026-10-17):** The user reported that v0.2.1 successfully removes ads in the patched Android app. This is a user-confirmed outcome, not an independent test of every feed or configuration. **Not separately verified:** other tabs, signed-in/mute-word combinations, login and bookmarking. Do not claim full ad-free coverage across all screens.
 
 ## Risks and earlier versions
 
