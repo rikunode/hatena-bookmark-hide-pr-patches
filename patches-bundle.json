@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-14T02:44:33",
-  "description": "FIX v0.2.1: Hot-feed PR items now filtered even when logged out or with zero mute words, addressing user-confirmed 5.80 v0.2.0 ad leakage. Original 5.80/58000 only. APK built/signed and compiled DEX verified; actual v0.2.1 ad removal on a phone STILL UNVERIFIED. Includes side-by-side clone. Historical 2024 third-party APK safety risks.",
+  "description": "Morphe patches for Hatena Bookmark 5.80 / versionCode 58000 (v0.2.1). Hide native PR/ad entries in the article hot-feed, including cases with no mute words or when signed out. User confirmed successful ad removal on an Android device on 2026-10-17. Includes optional side-by-side clone. APK rebuilding, signing, and compiled DEX were validated; other feeds, login and bookmarking were not separately verified. Source APK is a historical 2024 third-party download and carries security risks.",
   "download_url": "https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/download/v0.2.1/patches-0.2.1.mpp",
   "signature_download_url": "",
   "version": "0.2.1"
