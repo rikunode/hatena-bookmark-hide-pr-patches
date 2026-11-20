@@ -1,6 +1,6 @@
 # Hatena Bookmark — native PR article filter for Morphe
 
-**Current experimental bundle: v0.4.1** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
+**Current experimental bundle: v0.4.2** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
 
 [**Add Hatena Bookmark PR Filter to Morphe (one tap)**](https://morphe.software/add-source?github=rikunode/hatena-bookmark-hide-pr-patches)
 
@@ -15,6 +15,8 @@ https://github.com/rikunode/hatena-bookmark-hide-pr-patches
 An actual Android user confirmed v0.2.0 could install, launch and load article feeds, but the **`総合` feed still showed an article labeled `広告`**. The old patch hooked only `MuteHelperKt.filteredWithMuteWords()`, which is never called if the user is logged out or has zero mute words.
 
 **v0.2.1** additionally filters `CategoryHotEntryPagingSource.withDate(List<BookmarkEntry>, ZonedDateTime)` before it converts hot-feed entries into date-tagged list items. This is invoked on the paged hot-entry path irrespective of mute configuration. It calls the original `filterByMuteWords(entries, emptyList(), null)` with the patched PR-flag guard, keeping normal entries and removing `isPrEntry()` entries. The original mute-matching logic continues to run when the user has configured rules.
+
+**v0.4.2 crash fix:** v0.4.1 incorrectly called `injectCss(WebView, boolean)` after the original `onPageFinished` method reused its `p1` register for a `SimpleUriIdlingResource`; v0.4.2 moves the call directly after the superclass callback, before that overwrite. This fixes the observed DEX type mismatch. See [v0.4.2 release notes](docs/RELEASE_NOTES_v0.4.2.md). Device-level article opening remains pending confirmation.
 
 ### Four included Morphe patches
 
@@ -42,9 +44,9 @@ Morphe Desktop applied **2/2 patches, 0 failures**, rebuilt and signed an output
 - Previous **v0.2.0** for 5.80: patch applied and app rendered live feed, but PR ad remained due missing unconditional hot-feed filter.
 - Earlier **v0.1.1** for 5.84: modifying APK triggered a Pairip Play license failure on actual phone; still marked as known-broken prerelease.
 
-### Automatic filter updates (v0.4.1)
+### Automatic filter updates (v0.4.2)
 
-Every day, [GitHub Actions](.github/workflows/update-filters.yml) converts official [EasyList](https://raw.githubusercontent.com/easylist/easylist/gh-pages/easylist.txt) and [AdGuard Japanese Filter](https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt) rules to a strictly validated gzip snapshot in the [`filter-data` branch](https://github.com/rikunode/hatena-bookmark-hide-pr-patches/tree/filter-data). The Android helper checks [the snapshot URL](https://raw.githubusercontent.com/rikunode/hatena-bookmark-hide-pr-patches/filter-data/filters.json.gz) no more than once per 24 hours (ETag supported), validates SHA-256 and count limits, keeps a previous file, and merges validated snapshots with the embedded seed hosts and CSS (exceptions take precedence). The converter additionally accepts standalone `$third-party` host rules, while still excluding other options. Disabling `updateAdBlockLists` uses only the seed. **Licensing:** EasyList GPL-3.0-or-later / CC BY-SA 3.0-or-later dual-license, and AdGuard GPL-3.0. Attribution [NOTICE](filter-lists/NOTICE) is published alongside the snapshot. See [v0.4.1 notes](docs/RELEASE_NOTES_v0.4.1.md) for digest protocol and limitations. No real-device ad blocking claim is made yet.
+Every day, [GitHub Actions](.github/workflows/update-filters.yml) converts official [EasyList](https://raw.githubusercontent.com/easylist/easylist/gh-pages/easylist.txt) and [AdGuard Japanese Filter](https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt) rules to a strictly validated gzip snapshot in the [`filter-data` branch](https://github.com/rikunode/hatena-bookmark-hide-pr-patches/tree/filter-data). The Android helper checks [the snapshot URL](https://raw.githubusercontent.com/rikunode/hatena-bookmark-hide-pr-patches/filter-data/filters.json.gz) no more than once per 24 hours (ETag supported), validates SHA-256 and count limits, keeps a previous file, and merges validated snapshots with the embedded seed hosts and CSS (exceptions take precedence). The converter additionally accepts standalone `$third-party` host rules, while still excluding other options. Disabling `updateAdBlockLists` uses only the seed. **Licensing:** EasyList GPL-3.0-or-later / CC BY-SA 3.0-or-later dual-license, and AdGuard GPL-3.0. Attribution [NOTICE](filter-lists/NOTICE) is published alongside the snapshot. See [v0.4.2 notes](docs/RELEASE_NOTES_v0.4.2.md) for digest protocol and limitations. No real-device ad blocking claim is made yet.
 
 Documentation: [Morphe Manager guide (JA)](docs/MORPHE_MANAGER_SETUP_JA.md), [v0.3.1 release notes](docs/RELEASE_NOTES_v0.3.1.md), [5.80 safety/integration evidence](docs/EXPERIMENT_58000_SECURITY_AND_PORT.md).
 
@@ -56,4 +58,4 @@ python scripts/validate_morphe_release.py
 python -m unittest discover -s tests -v
 ```
 
-Output `patches/build/libs/patches-0.4.1.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.
+Output `patches/build/libs/patches-0.4.2.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.

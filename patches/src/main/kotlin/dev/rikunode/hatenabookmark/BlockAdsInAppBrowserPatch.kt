@@ -10,6 +10,7 @@ import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod.Companion.toMutable
 import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.immutable.ImmutableMethodImplementation
 import com.android.tools.smali.dexlib2.immutable.ImmutableMethodParameter
 import com.android.tools.smali.dexlib2.immutable.ImmutableMethod
@@ -76,6 +77,17 @@ val blockAdsInAppBrowserPatch = bytecodePatch(
             throw PatchException("Hatena onPageFinished register/code_item/return guard failed")
         }
 
+        // p1 (v8) is a WebView only until the original code reuses v8 for
+        // WebViewActivity and SimpleUriIdlingResource. Inject immediately after
+        // the superclass callback, before that first overwrite.
+        val superFinished = instructions.getOrNull(4)
+        if (superFinished?.opcode != Opcode.INVOKE_SUPER ||
+            (superFinished as? ReferenceInstruction)?.reference?.toString() !=
+                "Landroid/webkit/WebViewClient;->onPageFinished(Landroid/webkit/WebView;Ljava/lang/String;)V"
+        ) {
+            throw PatchException("Hatena onPageFinished superclass call location guard failed")
+        }
+
         val mutable = mutableClassDefBy(WEBVIEW_CLIENT)
         val existing = mutable.methods.single {
             it.name == "onPageFinished" &&
@@ -83,9 +95,9 @@ val blockAdsInAppBrowserPatch = bytecodePatch(
                     listOf("Landroid/webkit/WebView;", "Ljava/lang/String;")
         }
 
-        // On method exit, p1 = article WebView. v0 is a scratch register.
+        // At index 5, p1 (v8) is still the article WebView; v0 is scratch.
         existing.addInstructions(
-            existing.implementation!!.instructions.size - 1,
+            5,
             """
                 const/4 v0, ${if (updateAdBlockLists == false) "0x0" else "0x1"}
                 invoke-static { p1, v0 }, ${HELPER}->injectCss(Landroid/webkit/WebView;Z)V
