@@ -1,0 +1,23 @@
+# NOTICE — Filter sources and licenses
+
+This branch distributes an automatically derived *subset* of two third-party
+ad-block lists (plain domain rules and allowlisted generic cosmetic rules).
+It is not the original data and is not endorsed by the upstream maintainers.
+
+1. EasyList — EasyList authors and contributors
+   Source: https://raw.githubusercontent.com/easylist/easylist/gh-pages/easylist.txt
+   Project: https://easylist.to/
+   Licenses (upstream alternative licensing): GNU GPL version 3 or later
+   OR Creative Commons Attribution-ShareAlike 3.0 Unported or later.
+   https://easylist.to/pages/licence.html
+
+2. AdGuard Japanese Filter — AdGuard Software Limited and contributors
+   Source: https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt
+   Project: https://github.com/AdguardTeam/AdguardFilters
+   License: GNU GPL version 3 (GPL-3.0)
+   https://github.com/AdguardTeam/AdguardFilters/blob/master/LICENSE
+
+The derived merged snapshot is distributed under GNU GPL version 3,
+consistent with the original repository's license.
+The host list is a non-exhaustive transformation, not a general network
+or privacy filter. Retain this notice with redistributed derived files.
