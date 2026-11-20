@@ -11,7 +11,7 @@ import unittest
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-MPP = ROOT / "patches/build/libs/patches-0.3.1.mpp"
+MPP = ROOT / "patches/build/libs/patches-0.4.0.mpp"
 
 class MppTests(unittest.TestCase):
     def test_android_bundle(self):
@@ -24,13 +24,14 @@ class MppTests(unittest.TestCase):
             self.assertGreater(struct.unpack_from("<I", dex, 0x60)[0], 0)
             self.assertIn(b"HideNativePrEntriesPatchKt", dex)
             self.assertIn(b"filteredWithMuteWords", dex)
+            self.assertIn(b"BlockAdsInAppBrowserPatchKt", dex)
         print("BUILD_BUNDLE_SHA256", hashlib.sha256(MPP.read_bytes()).hexdigest())
 
     def test_metadata(self):
         meta = json.loads((ROOT/"patches-list.json").read_text(encoding="utf-8"))
-        self.assertEqual(meta["version"], "0.3.1")
-        self.assertEqual(len(meta["patches"]), 3)
-        self.assertEqual({p["name"] for p in meta["patches"]}, {"Hide native PR entries from article feeds", "Clone Hatena Bookmark for safe side-by-side testing", "Hide weekly bookmark ranking announcement"})
+        self.assertEqual(meta["version"], "0.4.0")
+        self.assertEqual(len(meta["patches"]), 4)
+        self.assertEqual({p["name"] for p in meta["patches"]}, {"Hide native PR entries from article feeds", "Clone Hatena Bookmark for safe side-by-side testing", "Hide weekly bookmark ranking announcement", "Block ads in in-app article browser"})
         patch = next(p for p in meta["patches"] if p["name"] == "Hide native PR entries from article feeds")
         packages = patch["compatiblePackages"]
         self.assertEqual(len(packages), 1)

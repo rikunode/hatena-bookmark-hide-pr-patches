@@ -13,13 +13,14 @@ import struct
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.3.1"
+VERSION = "0.4.0"
 OWNER = "rikunode"
 REPOSITORY = "hatena-bookmark-hide-pr-patches"
 EXPECTED_NAMES = {
     "Hide native PR entries from article feeds",
     "Clone Hatena Bookmark for safe side-by-side testing",
     "Hide weekly bookmark ranking announcement",
+    "Block ads in in-app article browser",
 }
 
 
@@ -46,8 +47,8 @@ def validate_index(data: dict) -> None:
     if data.get("version") != VERSION:
         raise ValueError("patch index version mismatch")
     patches = data.get("patches")
-    if not isinstance(patches, list) or len(patches) != 3:
-        raise ValueError("expected exactly three patches")
+    if not isinstance(patches, list) or len(patches) != 4:
+        raise ValueError("expected exactly four patches")
     if {p.get("name") for p in patches} != EXPECTED_NAMES:
         raise ValueError("patch names do not match release")
     for patch in patches:
@@ -84,7 +85,7 @@ def validate_bundle(path: Path) -> None:
             raise ValueError("Invalid Android dex magic")
         if len(binary) < 112 or struct.unpack_from("<I", binary, 0x60)[0] <= 0:
             raise ValueError("Empty DEX class_defs_size")
-        for cls in (b"CloneHatenaBookmarkPatchKt", b"HideNativePrEntriesPatchKt", b"HideWeeklyRankingPatchKt"):
+        for cls in (b"CloneHatenaBookmarkPatchKt", b"HideNativePrEntriesPatchKt", b"HideWeeklyRankingPatchKt", b"BlockAdsInAppBrowserPatchKt"):
             if cls not in binary:
                 raise ValueError(f"Missing compiled patch in Android dex: {cls!r}")
         manifest = bundle.read("META-INF/MANIFEST.MF").decode("utf-8")
@@ -99,7 +100,7 @@ def main() -> None:
     validate_manifest(remote)
     validate_index(index)
     validate_bundle(ROOT / "patches/build/libs" / f"patches-{VERSION}.mpp")
-    print("MORPHE_ANDROID_SOURCE_PASS: JSON created_at, version, 3 patches, 58000, Android classes.dex")
+    print("MORPHE_ANDROID_SOURCE_PASS: JSON created_at, version, 4 patches, 58000, Android classes.dex")
 
 
 if __name__ == "__main__":
