@@ -21,3 +21,16 @@ The derived merged snapshot is distributed under GNU GPL version 3,
 consistent with the original repository's license.
 The host list is a non-exhaustive transformation, not a general network
 or privacy filter. Retain this notice with redistributed derived files.
+
+3. Adblock Warning Removal List (AWRL) — EasyList community contributors
+   Source: https://github.com/easylist/antiadblockfilters/blob/master/antiadblockfilters/antiadblock_english.txt
+   Three generic warning selectors only: .ad-blocker-warning, .main_adbalert,
+   .pane-emediate. No AWRL network rules or JavaScript are imported.
+   The upstream standalone repository does not declare a LICENSE file; do not
+   infer a license for its entire corpus from this limited attributed use.
+
+4. Reviewed Ad-Shield service hosts (three hostnames, not a copied filter list)
+   Evidence: https://github.com/AdguardTeam/KnowledgeBase/issues/388
+   External corroboration: https://github.com/FilteringDev/tinyShield/blob/main/libs/source/references/filterslists/keywords.ts
+   These hostnames are for service identification only, not an endorsement.
+   Common CDN hosts and official ad-shield.io platform website are excluded.

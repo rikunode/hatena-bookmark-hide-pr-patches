@@ -133,10 +133,23 @@ def main() -> None:
         parser.error(f"provide exactly {len(SOURCES)} --source-file arguments")
     sources = ([p.read_text(encoding="utf-8") for p in args.source_file]
                if args.source_file else [download(url) for _, url in SOURCES])
+
+    # Small, reviewed anti-adblock additions. Feed them through the SAME
+    # converter, protected-host policy, exception precedence and v1 digest.
+    extra_hosts = read_list(ROOT / "filter-lists" / "anti-adblock-hosts.txt")
+    extra_css = read_list(ROOT / "filter-lists" / "anti-adblock-css.txt")
+    if any(not HOST.fullmatch(host) for host in extra_hosts):
+        raise ValueError("invalid supplemental anti-adblock host")
+    if extra_css != {".ad-blocker-warning", ".main_adbalert", ".pane-emediate"}:
+        raise ValueError("unexpected supplemental anti-adblock selector")
+    sources.append("\n".join(
+        [f"||{host}^" for host in sorted(extra_hosts)] +
+        [f"##{selector}" for selector in sorted(extra_css)]
+    ))
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     doc, compressed = convert(
         sources,
-        read_list(ROOT / "filter-lists" / "css-allowlist.txt"),
+        read_list(ROOT / "filter-lists" / "css-allowlist.txt") | extra_css,
         read_list(ROOT / "filter-lists" / "protected-hosts.txt"),
         generated_at,
     )

@@ -53,6 +53,26 @@ class AdblockFilterTests(unittest.TestCase):
         self.assertIn('loaded = withSeed(loaded);', helper)
         self.assertIn('active = withSeed(candidate);', helper)
 
+    def test_reviewed_anti_adblock_inputs_dedupe_and_css(self):
+        root = Path(__file__).resolve().parents[1] / "filter-lists"
+        hosts = f.read_list(root / "anti-adblock-hosts.txt")
+        selectors = f.read_list(root / "anti-adblock-css.txt")
+        self.assertEqual(hosts, {"html-load.com", "css-load.com", "content-loader.com"})
+        self.assertEqual(selectors, {".ad-blocker-warning", ".main_adbalert",
+                                     ".pane-emediate"})
+        source = "\n".join(
+            ["||html-load.com^", "||html-load.com^"] +
+            [f"||{h}^" for h in hosts] +
+            [f"##{s}" for s in selectors]
+        )
+        with patch.object(f, "MIN_HOSTS", 1):
+            doc, compressed = f.convert([source], selectors, set(),
+                                        "2026-11-20T00:00:00Z")
+        self.assertEqual(doc["hosts"], sorted(hosts))
+        self.assertEqual(doc["version"], 1)
+        self.assertEqual(len(doc["css"].split("display:none!important}")), 4)
+        self.assertEqual(json.loads(gzip.decompress(compressed)), doc)
+
     def test_abnormal_host_count_refuses_publication(self):
         with self.assertRaisesRegex(ValueError, "unsafe host count"):
             f.convert(["||ads.example.com^"], set(), set(), "2026-11-20T00:00:00Z")
