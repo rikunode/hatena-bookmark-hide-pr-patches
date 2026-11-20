@@ -120,13 +120,24 @@ public final class AdBlockHelper {
                 if (loaded == null)
                     loaded = new Rules(new HashSet<>(Arrays.asList(SEED_HOSTS)),
                             new HashSet<>(), SEED_CSS);
-                active = loaded; // A single volatile swap, never mutate the currently active set.
+                else
+                    loaded = withSeed(loaded);
+                active = loaded; // A single volatile swap.
                 if (update) updateIfDue(app);
             } catch (Throwable ignored) {
                 active = new Rules(new HashSet<>(Arrays.asList(SEED_HOSTS)),
                         new HashSet<>(), SEED_CSS);
             }
         }, "HatenaAdBlock").start();
+    }
+
+    // Merge only after the snapshot has passed all original integrity checks.
+    private static Rules withSeed(Rules snapshot) {
+        Set<String> hosts = new HashSet<>(snapshot.hosts);
+        hosts.addAll(Arrays.asList(SEED_HOSTS));
+        hosts.removeAll(snapshot.exceptions);
+        return new Rules(hosts, new HashSet<>(snapshot.exceptions),
+                SEED_CSS + "\n" + snapshot.css);
     }
 
     private static boolean matches(Set<String> domains, String host) {
@@ -275,7 +286,7 @@ public final class AdBlockHelper {
             if (newEtag != null && newEtag.length() < 256) edit.putString("etag", newEtag);
             edit.apply();
             // Already displayed WebViews keep their style; only future requests see new rules.
-            active = candidate;
+            active = withSeed(candidate);
         } catch (Throwable ignored) {
             // Preserve the last valid snapshot and silently retry on another eligible visit.
         } finally {

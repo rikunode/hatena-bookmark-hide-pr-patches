@@ -2,7 +2,8 @@
 """Convert ONLY plain EasyList / AdGuard Japanese host and generic cosmetic rules.
 
 No nonstandard parser dependencies. The derived dataset is a compact subset, not
-a uBO engine: no $ options, paths, domain-scoped rules, redirects or scriptlets.
+a uBO engine: only bare or $third-party-alone host rules, no paths,
+domain-scoped rules, redirects or scriptlets.
 
 Digest protocol (shared with Android AdBlockHelper):
 UTF-8 SHA256 of: str(version) + "\n" + generated_at + "\n" +
@@ -27,7 +28,7 @@ SOURCES = (
     ("AdGuard Japanese Filter",
      "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt"),
 )
-DOMAIN_RULE = re.compile(r"^(@@)?\|\|([a-z0-9.-]+)\^$", re.I)
+DOMAIN_RULE = re.compile(r"^(@@)?\|\|([a-z0-9.-]+)\^(?:\$third-party)?$", re.I)
 HOST = re.compile(
     r"^(?=.{3,253}$)(?!.*\.\.)(?!-)(?!.*\.-)(?!.*-\.)"
     r"[a-z0-9-]+(?:\.[a-z0-9-]+)+$"

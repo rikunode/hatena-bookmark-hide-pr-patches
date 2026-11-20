@@ -1,6 +1,6 @@
 # Hatena Bookmark — native PR article filter for Morphe
 
-**Current experimental bundle: v0.4.0** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
+**Current experimental bundle: v0.4.1** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
 
 [**Add Hatena Bookmark PR Filter to Morphe (one tap)**](https://morphe.software/add-source?github=rikunode/hatena-bookmark-hide-pr-patches)
 
@@ -42,9 +42,9 @@ Morphe Desktop applied **2/2 patches, 0 failures**, rebuilt and signed an output
 - Previous **v0.2.0** for 5.80: patch applied and app rendered live feed, but PR ad remained due missing unconditional hot-feed filter.
 - Earlier **v0.1.1** for 5.84: modifying APK triggered a Pairip Play license failure on actual phone; still marked as known-broken prerelease.
 
-### Automatic filter updates (v0.4.0)
+### Automatic filter updates (v0.4.1)
 
-Every day, [GitHub Actions](.github/workflows/update-filters.yml) converts official [EasyList](https://raw.githubusercontent.com/easylist/easylist/gh-pages/easylist.txt) and [AdGuard Japanese Filter](https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt) rules to a strictly validated gzip snapshot in the [`filter-data` branch](https://github.com/rikunode/hatena-bookmark-hide-pr-patches/tree/filter-data). The Android helper checks [the snapshot URL](https://raw.githubusercontent.com/rikunode/hatena-bookmark-hide-pr-patches/filter-data/filters.json.gz) no more than once per 24 hours (ETag supported), validates SHA-256 and count limits, keeps a previous file, and falls back to the embedded seed. Disabling `updateAdBlockLists` uses only the seed. **Licensing:** EasyList GPL-3.0-or-later / CC BY-SA 3.0-or-later dual-license, and AdGuard GPL-3.0. Attribution [NOTICE](filter-lists/NOTICE) is published alongside the snapshot. See [v0.4.0 notes](docs/RELEASE_NOTES_v0.4.0.md) for digest protocol and limitations. No real-device ad blocking claim is made yet.
+Every day, [GitHub Actions](.github/workflows/update-filters.yml) converts official [EasyList](https://raw.githubusercontent.com/easylist/easylist/gh-pages/easylist.txt) and [AdGuard Japanese Filter](https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt) rules to a strictly validated gzip snapshot in the [`filter-data` branch](https://github.com/rikunode/hatena-bookmark-hide-pr-patches/tree/filter-data). The Android helper checks [the snapshot URL](https://raw.githubusercontent.com/rikunode/hatena-bookmark-hide-pr-patches/filter-data/filters.json.gz) no more than once per 24 hours (ETag supported), validates SHA-256 and count limits, keeps a previous file, and merges validated snapshots with the embedded seed hosts and CSS (exceptions take precedence). The converter additionally accepts standalone `$third-party` host rules, while still excluding other options. Disabling `updateAdBlockLists` uses only the seed. **Licensing:** EasyList GPL-3.0-or-later / CC BY-SA 3.0-or-later dual-license, and AdGuard GPL-3.0. Attribution [NOTICE](filter-lists/NOTICE) is published alongside the snapshot. See [v0.4.1 notes](docs/RELEASE_NOTES_v0.4.1.md) for digest protocol and limitations. No real-device ad blocking claim is made yet.
 
 Documentation: [Morphe Manager guide (JA)](docs/MORPHE_MANAGER_SETUP_JA.md), [v0.3.1 release notes](docs/RELEASE_NOTES_v0.3.1.md), [5.80 safety/integration evidence](docs/EXPERIMENT_58000_SECURITY_AND_PORT.md).
 
@@ -56,4 +56,4 @@ python scripts/validate_morphe_release.py
 python -m unittest discover -s tests -v
 ```
 
-Output `patches/build/libs/patches-0.4.0.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.
+Output `patches/build/libs/patches-0.4.1.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.
