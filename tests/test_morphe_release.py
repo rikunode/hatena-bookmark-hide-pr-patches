@@ -30,7 +30,7 @@ class RemoteManagerTests(unittest.TestCase):
 
     def test_wrong_download_url(self):
         with self.assertRaisesRegex(ValueError, "download_url"):
-            validate_manifest({**self.metadata, "download_url": "https://github.com/rikunode/other/releases/download/v0.3.0/patches-0.3.0.mpp"})
+            validate_manifest({**self.metadata, "download_url": "https://github.com/rikunode/other/releases/download/v0.3.1/patches-0.3.1.mpp"})
 
     def test_valid_patch_index(self):
         validate_index(self.index)

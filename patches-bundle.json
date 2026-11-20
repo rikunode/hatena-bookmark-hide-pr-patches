@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-20T11:56:14",
-  "description": "v0.3.0: Adds optional weekly bookmark ranking announcement suppression (hideWeeklyRanking default true), NOT YET real-device verified. Existing 5.80 PR removal was user-confirmed on Android 2026-10-17; side-by-side clone is retained. Only Hatena 5.80/versionCode 58000 supported. Historical 2024 third-party APK risks remain.",
-  "download_url": "https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/download/v0.3.0/patches-0.3.0.mpp",
+  "created_at": "2026-11-20T12:31:39",
+  "description": "v0.3.1 hotfix: Correct weekly ranking announcement code-size guard from incorrect 128 to independently verified 64 DEX code units. v0.3.0 ranking patch failed application on an actual device; corrected v0.3.1 is NOT YET real-device verified. Existing user-confirmed PR filtering and side-by-side clone unchanged. Hatena 5.80/versionCode 58000 only; historical third-party APK security risks remain.",
+  "download_url": "https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/download/v0.3.1/patches-0.3.1.mpp",
   "signature_download_url": "",
-  "version": "0.3.0"
+  "version": "0.3.1"
 }

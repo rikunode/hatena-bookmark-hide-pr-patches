@@ -1,6 +1,6 @@
 # Hatena Bookmark — native PR article filter for Morphe
 
-**Current experimental bundle: v0.3.0** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
+**Current experimental bundle: v0.3.1** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
 
 [**Add Hatena Bookmark PR Filter to Morphe (one tap)**](https://morphe.software/add-source?github=rikunode/hatena-bookmark-hide-pr-patches)
 
@@ -21,7 +21,7 @@ An actual Android user confirmed v0.2.0 could install, launch and load article f
 - **Hide native PR entries from article feeds** — native PR entries excluded at the model/list level, not just the visible advertisement label. V0.2.1 includes the unconditional hot-feed fix.
 - **Clone Hatena Bookmark for safe side-by-side testing** — changes package to `com.hatena.android.bookmark.morphe`, one custom receiver permission and three ContentProvider authorities so the working original 5.84 can stay installed. Both existing patches remain enabled by default.
 
-- **Hide weekly bookmark ranking announcement** — hides only announcements containing `ブクマ数ランキング` via `TopFragment.showAnnouncement`, with `hideWeeklyRanking` defaulting to true. **Real-device confirmation pending.**
+- **Hide weekly bookmark ranking announcement** — hides only announcements containing `ブクマ数ランキング` via `TopFragment.showAnnouncement`, with `hideWeeklyRanking` defaulting to true. **v0.3.0 failed Morphe application on a real device because the code-size guard used 128 instead of 64 code units; v0.3.1 corrects that guard. v0.3.1 real-device confirmation pending.**
 
 The code checks fixed 5.80 bytecode fingerprints (the original mute method and hot-feed `withDate`) and refuses unknown layouts.
 
@@ -40,7 +40,7 @@ Morphe Desktop applied **2/2 patches, 0 failures**, rebuilt and signed an output
 - Previous **v0.2.0** for 5.80: patch applied and app rendered live feed, but PR ad remained due missing unconditional hot-feed filter.
 - Earlier **v0.1.1** for 5.84: modifying APK triggered a Pairip Play license failure on actual phone; still marked as known-broken prerelease.
 
-Documentation: [Morphe Manager guide (JA)](docs/MORPHE_MANAGER_SETUP_JA.md), [v0.3.0 release notes](docs/RELEASE_NOTES_v0.3.0.md), [5.80 safety/integration evidence](docs/EXPERIMENT_58000_SECURITY_AND_PORT.md).
+Documentation: [Morphe Manager guide (JA)](docs/MORPHE_MANAGER_SETUP_JA.md), [v0.3.1 release notes](docs/RELEASE_NOTES_v0.3.1.md), [5.80 safety/integration evidence](docs/EXPERIMENT_58000_SECURITY_AND_PORT.md).
 
 ## Developer verification
 
@@ -50,4 +50,4 @@ python scripts/validate_morphe_release.py
 python -m unittest discover -s tests -v
 ```
 
-Output `patches/build/libs/patches-0.3.0.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.
+Output `patches/build/libs/patches-0.3.1.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.

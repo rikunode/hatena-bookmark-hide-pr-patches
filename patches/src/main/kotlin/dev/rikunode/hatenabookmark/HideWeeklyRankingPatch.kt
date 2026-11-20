@@ -17,7 +17,7 @@ import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
  *
  * Expected original DEX layout:
  * - registerCount = 7
- * - codeUnits = 128
+ * - codeUnits = 64
  * - first instruction calls Announcement.getId(): String
  *
  * Suppress only announcements whose text contains
@@ -70,7 +70,7 @@ val hideWeeklyRankingPatch = bytecodePatch(
         require(impl.registerCount == 7) {
             "Unexpected register layout in Hatena 5.80 showAnnouncement"
         }
-        require(instructions.sumOf { it.codeUnits } == 128) {
+        require(instructions.sumOf { it.codeUnits } == 64) {
             "Unexpected Hatena 5.80 showAnnouncement code size"
         }
 
