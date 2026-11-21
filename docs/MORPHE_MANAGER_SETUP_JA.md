@@ -3,7 +3,7 @@
 Morphe Managerで利用するパッチソース：
 
 ```text
-https://github.com/rikunode/hatena-bookmark-hide-pr-patches
+https://github.com/rikunode/hoshiori
 ```
 
 **v0.4.2はランキングお知らせ非表示を追加した試験版。5.80 / versionCode 58000専用**。5.84には現在の公開ソースv0.4.2を適用できません（旧5.84版v0.1.1はPairipにより起動不能と確認済み）。

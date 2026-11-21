@@ -1,13 +1,13 @@
 # Hatena Bookmark — native PR article filter for Morphe
 
-**Current experimental bundle: v0.4.4** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
+**Current experimental bundle: v0.4.5** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
 
-[**Add Hatena Bookmark PR Filter to Morphe (one tap)**](https://morphe.software/add-source?github=rikunode/hatena-bookmark-hide-pr-patches)
+[**Add Hatena Bookmark PR Filter to Morphe (one tap)**](https://morphe.software/add-source?github=rikunode/hoshiori)
 
 Morphe Manager remote source:
 
 ```text
-https://github.com/rikunode/hatena-bookmark-hide-pr-patches
+https://github.com/rikunode/hoshiori
 ```
 
 ## Why the fix was necessary
@@ -27,7 +27,7 @@ An actual Android user confirmed v0.2.0 could install, launch and load article f
 
 - **Block ads in in-app article browser** — default-on fourth patch. Blocks full-host EasyList/AdGuard Japanese subrequests in the article WebView (never main-frame loads), honors exception domains, and injects limited generic CSS. Options: `blockInAppBrowserAds` (default true), `updateAdBlockLists` (default true). The existing three patches are unchanged.
 
-- **Preserve article WebView cookies and storage** — fifth patch with the `preserveArticleWebStorage` option **default ON**. By default, suppresses the automatic `onDestroy` call clearing all WebView cookies and the app startup thread clearing WebStorage. This applies to **all** article sites, not only NHK: sites may retain sign-ins and tracking data. Manual account logout and explicit data clearing remain unmodified. NHK consent/region persistence awaits owner verification on a real device; emulator verification may use test-site cookies instead. See [v0.4.4 release notes](docs/RELEASE_NOTES_v0.4.4.md).
+- **Preserve article WebView cookies and storage** — fifth patch with the `preserveArticleWebStorage` option **default ON**. By default, suppresses the automatic `onDestroy` call clearing all WebView cookies and the app startup thread clearing WebStorage. This applies to **all** article sites, not only NHK: sites may retain sign-ins and tracking data. Manual account logout and explicit data clearing remain unmodified. NHK consent/region persistence awaits owner verification on a real device; emulator verification may use test-site cookies instead. See [v0.4.5 release notes](docs/RELEASE_NOTES_v0.4.5.md).
 
 The code checks fixed 5.80 bytecode fingerprints (including article WebView `onPageFinished` registerCount=10 and `insns_size`=82) and refuses unknown layouts.
 
@@ -48,7 +48,7 @@ Morphe Desktop applied **2/2 patches, 0 failures**, rebuilt and signed an output
 
 ### Automatic filter updates (v0.4.2)
 
-Every day, [GitHub Actions](.github/workflows/update-filters.yml) converts official [EasyList](https://raw.githubusercontent.com/easylist/easylist/gh-pages/easylist.txt) and [AdGuard Japanese Filter](https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt) rules to a strictly validated gzip snapshot in the [`filter-data` branch](https://github.com/rikunode/hatena-bookmark-hide-pr-patches/tree/filter-data). The Android helper checks [the snapshot URL](https://raw.githubusercontent.com/rikunode/hatena-bookmark-hide-pr-patches/filter-data/filters.json.gz) no more than once per 24 hours (ETag supported), validates SHA-256 and count limits, keeps a previous file, and merges validated snapshots with the embedded seed hosts and CSS (exceptions take precedence). The converter additionally accepts standalone `$third-party` host rules, while still excluding other options. Disabling `updateAdBlockLists` uses only the seed. **Licensing:** EasyList GPL-3.0-or-later / CC BY-SA 3.0-or-later dual-license, and AdGuard GPL-3.0. Attribution [NOTICE](filter-lists/NOTICE) is published alongside the snapshot. See [v0.4.2 notes](docs/RELEASE_NOTES_v0.4.2.md) for digest protocol and limitations. No real-device ad blocking claim is made yet.
+Every day, [GitHub Actions](.github/workflows/update-filters.yml) converts official [EasyList](https://raw.githubusercontent.com/easylist/easylist/gh-pages/easylist.txt) and [AdGuard Japanese Filter](https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt) rules to a strictly validated gzip snapshot in the [`filter-data` branch](https://github.com/rikunode/hoshiori/tree/filter-data). The Android helper checks [the snapshot URL](https://raw.githubusercontent.com/rikunode/hoshiori/filter-data/filters.json.gz) no more than once per 24 hours (ETag supported), validates SHA-256 and count limits, keeps a previous file, and merges validated snapshots with the embedded seed hosts and CSS (exceptions take precedence). The converter additionally accepts standalone `$third-party` host rules, while still excluding other options. Disabling `updateAdBlockLists` uses only the seed. **Licensing:** EasyList GPL-3.0-or-later / CC BY-SA 3.0-or-later dual-license, and AdGuard GPL-3.0. Attribution [NOTICE](filter-lists/NOTICE) is published alongside the snapshot. See [v0.4.2 notes](docs/RELEASE_NOTES_v0.4.2.md) for digest protocol and limitations. No real-device ad blocking claim is made yet.
 
 Documentation: [Morphe Manager guide (JA)](docs/MORPHE_MANAGER_SETUP_JA.md), [v0.3.1 release notes](docs/RELEASE_NOTES_v0.3.1.md), [5.80 safety/integration evidence](docs/EXPERIMENT_58000_SECURITY_AND_PORT.md).
 
@@ -60,4 +60,4 @@ python scripts/validate_morphe_release.py
 python -m unittest discover -s tests -v
 ```
 
-Output `patches/build/libs/patches-0.4.4.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.
+Output `patches/build/libs/patches-0.4.5.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.
