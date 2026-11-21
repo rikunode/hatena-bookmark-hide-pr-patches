@@ -1,6 +1,6 @@
 # Hatena Bookmark — native PR article filter for Morphe
 
-**Current experimental bundle: v0.4.2** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
+**Current experimental bundle: v0.4.3** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
 
 [**Add Hatena Bookmark PR Filter to Morphe (one tap)**](https://morphe.software/add-source?github=rikunode/hatena-bookmark-hide-pr-patches)
 
@@ -18,7 +18,7 @@ An actual Android user confirmed v0.2.0 could install, launch and load article f
 
 **v0.4.2 crash fix:** v0.4.1 incorrectly called `injectCss(WebView, boolean)` after the original `onPageFinished` method reused its `p1` register for a `SimpleUriIdlingResource`; v0.4.2 moves the call directly after the superclass callback, before that overwrite. This fixes the observed DEX type mismatch. See [v0.4.2 release notes](docs/RELEASE_NOTES_v0.4.2.md). Device-level article opening remains pending confirmation.
 
-### Four included Morphe patches
+### Five included Morphe patches
 
 - **Hide native PR entries from article feeds** — native PR entries excluded at the model/list level, not just the visible advertisement label. V0.2.1 includes the unconditional hot-feed fix.
 - **Clone Hatena Bookmark for safe side-by-side testing** — changes package to `com.hatena.android.bookmark.morphe`, one custom receiver permission and three ContentProvider authorities so the working original 5.84 can stay installed. Both existing patches remain enabled by default.
@@ -26,6 +26,8 @@ An actual Android user confirmed v0.2.0 could install, launch and load article f
 - **Hide weekly bookmark ranking announcement** — hides only announcements containing `ブクマ数ランキング` via `TopFragment.showAnnouncement`, with `hideWeeklyRanking` defaulting to true. **v0.3.0 failed Morphe application on a real device because the code-size guard used 128 instead of 64 code units; v0.3.1 corrects that guard. v0.3.1 real-device confirmation pending.**
 
 - **Block ads in in-app article browser** — default-on fourth patch. Blocks full-host EasyList/AdGuard Japanese subrequests in the article WebView (never main-frame loads), honors exception domains, and injects limited generic CSS. Options: `blockInAppBrowserAds` (default true), `updateAdBlockLists` (default true). The existing three patches are unchanged.
+
+- **Preserve article WebView cookies and storage** — fifth patch with the `preserveArticleWebStorage` option **default OFF**. When enabled, suppresses the automatic `onDestroy` call clearing all WebView cookies and the app startup thread clearing WebStorage. This applies to **all** article sites, not only NHK: sites may retain sign-ins and tracking data. Manual account logout and explicit data clearing remain unmodified. NHK consent/region persistence awaits owner verification on a real device; emulator verification may use test-site cookies instead. See [v0.4.3 release notes](docs/RELEASE_NOTES_v0.4.3.md).
 
 The code checks fixed 5.80 bytecode fingerprints (including article WebView `onPageFinished` registerCount=10 and `insns_size`=82) and refuses unknown layouts.
 
@@ -58,4 +60,4 @@ python scripts/validate_morphe_release.py
 python -m unittest discover -s tests -v
 ```
 
-Output `patches/build/libs/patches-0.4.2.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.
+Output `patches/build/libs/patches-0.4.3.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.

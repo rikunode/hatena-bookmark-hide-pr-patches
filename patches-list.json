@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "patches": [
     {
       "name": "Block ads in in-app article browser",
@@ -151,6 +151,47 @@
           "required": false,
           "type": "kotlin.Boolean",
           "default": true,
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Preserve article WebView cookies and storage",
+      "description": "Optionally retain website preferences after closing articles and restarting the app; affects all article sites.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.hatena.android.bookmark",
+          "name": "Hatena Bookmark",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2A9BD6",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "5.80",
+              "versionCodes": {
+                "ARM64_V8A": 58000,
+                "ARMEABI_V7A": 58000,
+                "X86_64": 58000,
+                "X86": 58000
+              },
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "preserveArticleWebStorage",
+          "title": "Preserve article website preferences",
+          "description": "Keep cookies and website storage across article closes and app restarts. All article websites may retain login and tracking data.",
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
           "values": null
         }
       ]

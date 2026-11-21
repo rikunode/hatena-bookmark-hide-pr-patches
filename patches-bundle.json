@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-20T16:39:00",
-  "description": "v0.4.2 fixes a DEX register-type mismatch in article WebView onPageFinished: CSS injection now happens immediately after the WebViewClient superclass callback while p1 still holds the WebView, before the original method overwrites p1 with SimpleUriIdlingResource. Existing ad-block host rules, seed integration and other three patches unchanged. Hatena Bookmark 5.80/versionCode 58000 only.",
-  "download_url": "https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/download/v0.4.2/patches-0.4.2.mpp",
+  "created_at": "2026-11-21T12:49:04",
+  "description": "v0.4.3 adds an optional, default-OFF preservation of article-site cookies and WebStorage across article close and app restart. Existing native PR hiding, weekly ranking hiding, cloning and ad-block patches unchanged. Hatena Bookmark 5.80/versionCode 58000 only.",
+  "download_url": "https://github.com/rikunode/hatena-bookmark-hide-pr-patches/releases/download/v0.4.3/patches-0.4.3.mpp",
   "signature_download_url": "",
-  "version": "0.4.2"
+  "version": "0.4.3"
 }
