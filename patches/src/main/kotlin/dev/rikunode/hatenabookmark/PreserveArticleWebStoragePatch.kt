@@ -11,7 +11,7 @@ import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 
 /**
- * Preserve user-selected article-site preferences when explicitly enabled.
+ * Preserve user-selected article-site preferences by default, unless disabled.
  * The original 5.80 WebViewActivity clears *all* WebView cookies on destroy;
  * BookmarkApplication starts a dedicated WebStorage.deleteAllData() thread on startup.
  *
@@ -36,7 +36,7 @@ val preserveArticleWebStoragePatch = bytecodePatch(
 
     val preserveArticleWebStorage by booleanOption(
         key = "preserveArticleWebStorage",
-        default = false,
+        default = true,
         title = "Preserve article website preferences",
         description = "Keep cookies and website storage across article closes and app restarts. All article websites may retain login and tracking data.",
     )

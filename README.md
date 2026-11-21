@@ -1,6 +1,6 @@
 # Hatena Bookmark — native PR article filter for Morphe
 
-**Current experimental bundle: v0.4.3** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
+**Current experimental bundle: v0.4.4** — compatible with Hatena Bookmark **5.80 / versionCode 58000 only**. PR filtering was user-confirmed on a real device (2026-10-17); the new ranking patch is not yet device-verified.
 
 [**Add Hatena Bookmark PR Filter to Morphe (one tap)**](https://morphe.software/add-source?github=rikunode/hatena-bookmark-hide-pr-patches)
 
@@ -27,7 +27,7 @@ An actual Android user confirmed v0.2.0 could install, launch and load article f
 
 - **Block ads in in-app article browser** — default-on fourth patch. Blocks full-host EasyList/AdGuard Japanese subrequests in the article WebView (never main-frame loads), honors exception domains, and injects limited generic CSS. Options: `blockInAppBrowserAds` (default true), `updateAdBlockLists` (default true). The existing three patches are unchanged.
 
-- **Preserve article WebView cookies and storage** — fifth patch with the `preserveArticleWebStorage` option **default OFF**. When enabled, suppresses the automatic `onDestroy` call clearing all WebView cookies and the app startup thread clearing WebStorage. This applies to **all** article sites, not only NHK: sites may retain sign-ins and tracking data. Manual account logout and explicit data clearing remain unmodified. NHK consent/region persistence awaits owner verification on a real device; emulator verification may use test-site cookies instead. See [v0.4.3 release notes](docs/RELEASE_NOTES_v0.4.3.md).
+- **Preserve article WebView cookies and storage** — fifth patch with the `preserveArticleWebStorage` option **default ON**. By default, suppresses the automatic `onDestroy` call clearing all WebView cookies and the app startup thread clearing WebStorage. This applies to **all** article sites, not only NHK: sites may retain sign-ins and tracking data. Manual account logout and explicit data clearing remain unmodified. NHK consent/region persistence awaits owner verification on a real device; emulator verification may use test-site cookies instead. See [v0.4.4 release notes](docs/RELEASE_NOTES_v0.4.4.md).
 
 The code checks fixed 5.80 bytecode fingerprints (including article WebView `onPageFinished` registerCount=10 and `insns_size`=82) and refuses unknown layouts.
 
@@ -60,4 +60,4 @@ python scripts/validate_morphe_release.py
 python -m unittest discover -s tests -v
 ```
 
-Output `patches/build/libs/patches-0.4.3.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.
+Output `patches/build/libs/patches-0.4.4.mpp`. Source metadata `patches-bundle.json`, `patches-list.json`. GitHub Actions compiles Android DEX and checks both on clean checkout; local actual-APK regression tests are skipped there because the user's APK is not distributed.

@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "patches": [
     {
       "name": "Block ads in in-app article browser",
@@ -191,7 +191,7 @@
           "description": "Keep cookies and website storage across article closes and app restarts. All article websites may retain login and tracking data.",
           "required": false,
           "type": "kotlin.Boolean",
-          "default": false,
+          "default": true,
           "values": null
         }
       ]

@@ -8,10 +8,10 @@ PATCH = ROOT / "patches/src/main/kotlin/dev/rikunode/hatenabookmark/PreserveArti
 
 
 class StoragePersistenceTests(unittest.TestCase):
-    def test_default_off_and_strict_scoped_hooks(self):
+    def test_default_on_and_strict_scoped_hooks(self):
         source = PATCH.read_text(encoding="utf-8")
         self.assertIn('key = "preserveArticleWebStorage"', source)
-        self.assertIn("default = false", source)
+        self.assertIn("default = true", source)
         self.assertIn("if (preserveArticleWebStorage != true) return@execute", source)
         self.assertIn('"onDestroy", emptyList(), 4, 39,', source)
         self.assertIn('"onCreate", emptyList(), 5, 170,', source)

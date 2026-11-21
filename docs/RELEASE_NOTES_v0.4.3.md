@@ -1,3 +1,5 @@
+> **Historical release (v0.4.3):** The OFF-by-default behavior described below applies only to v0.4.3. Since v0.4.4, this option is **ON by default**. See [v0.4.4 notes](RELEASE_NOTES_v0.4.4.md).
+
 # v0.4.3 — Opt-in preservation of article-site preferences
 
 Hatena Bookmark **5.80 / versionCode 58000 only**.
